@@ -1,4 +1,5 @@
 import type { NextPage } from 'next'
+import { FormattedMessage } from 'react-intl'
 import PostPreview from '../components/Blog/PostPreview'
 import PostsGrid from '../components/Blog/PostsGrid'
 import Container from '../components/Common/Container'
