@@ -1,12 +1,12 @@
 import type { NextPage } from 'next'
-import { FormattedMessage } from 'react-intl'
 import PostPreview from '../components/Blog/PostPreview'
 import PostsGrid from '../components/Blog/PostsGrid'
 import Container from '../components/Common/Container'
 import CallToAction from '../components/Homepage/CallToAction'
 import { HomepageImage } from '../components/Homepage/HomepageImage'
 import { InfoCardSection } from '../components/Homepage/InfoCardSection'
-import { getAllPosts } from '../lib/api'
+import { DEFAULT_LOCALE } from '../lib/constants'
+import { getAllPosts } from '../lib/posts-api'
 import PostType from '../types/Post'
 
 type Props = {
@@ -47,15 +47,11 @@ const Home: NextPage<Props> = ({ allPosts }: Props) => {
 
 export default Home
 
-export const getStaticProps = async () => {
-  const allPosts = getAllPosts([
-    'title',
-    'date',
-    'abstract',
-    'coverImage',
-    'slug',
-    'topic',
-  ])
+export const getStaticProps = async ({ locale }: { locale?: string }) => {
+  const allPosts = getAllPosts(
+    ['title', 'date', 'abstract', 'coverImage', 'slug', 'topic'],
+    locale || DEFAULT_LOCALE
+  )
 
   return {
     props: { allPosts },

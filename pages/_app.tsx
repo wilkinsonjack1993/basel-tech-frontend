@@ -4,6 +4,7 @@ import NavBar from '../components/Common/Navbar'
 import { Footer } from '../components/Common/Footer'
 import { IntlProvider } from 'react-intl'
 import { useRouter } from 'next/router'
+import { DEFAULT_LOCALE } from '../lib/constants'
 
 const englishMessages = {
   'hello-world': 'Hello, World!',
@@ -20,8 +21,8 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <IntlProvider
       messages={messages}
-      locale={locale || 'de'}
-      defaultLocale="de"
+      locale={locale || DEFAULT_LOCALE}
+      defaultLocale={DEFAULT_LOCALE}
     >
       <div className="flex min-h-screen flex-col items-center justify-center">
         <NavBar />

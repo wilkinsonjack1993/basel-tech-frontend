@@ -1,11 +1,12 @@
 import { useRouter } from 'next/router'
 import ErrorPage from 'next/error'
-import { getPostBySlug, getAllPosts } from '../../lib/api'
+import { getPostBySlug, getAllPosts } from '../../lib/posts-api'
 import markdownToHtml from '../../lib/markdownToHtml'
 import PostType from '../../types/Post'
 import Container from '../../components/Common/Container'
 import Image from 'next/image'
 import DateFormatter from '../../components/Blog/DateFormatter'
+import { ALL_LOCALES, DEFAULT_LOCALE } from '../../lib/constants'
 
 type Props = {
   post: PostType
@@ -50,16 +51,15 @@ type Params = {
   params: {
     slug: string
   }
+  locale?: string
 }
 
-export async function getStaticProps({ params }: Params) {
-  const post = getPostBySlug(params.slug, [
-    'title',
-    'date',
-    'slug',
-    'content',
-    'coverImage',
-  ])
+export async function getStaticProps(props: Params) {
+  const post = getPostBySlug(
+    props.params.slug,
+    ['title', 'date', 'slug', 'content', 'coverImage'],
+    props.locale || DEFAULT_LOCALE
+  )
   const content = await markdownToHtml(post.content || '')
 
   return {
@@ -72,17 +72,15 @@ export async function getStaticProps({ params }: Params) {
   }
 }
 
-export async function getStaticPaths() {
-  const posts = getAllPosts(['slug'])
+export async function getStaticPaths({ locale }: { locale?: string }) {
+  const posts = getAllPosts(['slug'], locale || DEFAULT_LOCALE)
 
   return {
-    paths: posts.map((post) => {
-      return {
-        params: {
-          slug: post.slug,
-        },
-      }
-    }),
+    paths: posts
+      .map((post) =>
+        ALL_LOCALES.map((locale) => ({ locale, params: { slug: post.slug } }))
+      )
+      .flat(),
     fallback: false,
   }
 }
