@@ -8,12 +8,16 @@ import { InfoCardSection } from '../components/Homepage/InfoCardSection'
 import { DEFAULT_LOCALE } from '../lib/constants'
 import { getAllPosts } from '../lib/posts-api'
 import PostType from '../types/Post'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { useTranslation } from 'next-i18next'
 
 type Props = {
   allPosts: PostType[]
 }
 
 const Home: NextPage<Props> = ({ allPosts }: Props) => {
+  const { t } = useTranslation('homepage')
+
   return (
     <>
       <HomepageImage />
@@ -22,17 +26,17 @@ const Home: NextPage<Props> = ({ allPosts }: Props) => {
         <div className="mb-32 grid grid-cols-1 lg:grid-cols-2">
           <CallToAction
             color="yellow-200"
-            title="Got an idea? Get in contact!"
+            title={t('contact-us-cta-title')}
             href="/contact"
-            buttonText="Contact Us"
-            description="If you want to add a new organisation or get in contact with any querys then we would love to hear from you!"
+            buttonText={t('contact-us-cta-button')}
+            description={t('contact-us-cta-description')}
           />
           <CallToAction
-            color="blue-200"
-            title="Got an idea? Get in contact!"
+            color="yellow-200"
+            title={t('contact-us-cta-title')}
             href="/contact"
-            buttonText="Contact Us"
-            description="If you want to add a new organisation or get in contact with any querys then we would love to hear from you!"
+            buttonText={t('contact-us-cta-button')}
+            description={t('contact-us-cta-description')}
           />
         </div>
         <PostsGrid>
@@ -47,13 +51,16 @@ const Home: NextPage<Props> = ({ allPosts }: Props) => {
 
 export default Home
 
-export const getStaticProps = async ({ locale }: { locale?: string }) => {
+export const getStaticProps = async ({ locale }: { locale: string }) => {
   const allPosts = getAllPosts(
     ['title', 'date', 'abstract', 'coverImage', 'slug', 'topic'],
     locale || DEFAULT_LOCALE
   )
 
   return {
-    props: { allPosts },
+    props: {
+      ...(await serverSideTranslations(locale, ['common', 'homepage'])),
+      allPosts,
+    },
   }
 }

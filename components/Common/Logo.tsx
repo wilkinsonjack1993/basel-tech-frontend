@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import { forwardRef, Ref } from 'react'
 
 export const Logo = () => (
   <Link href="/">

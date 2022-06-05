@@ -32,7 +32,6 @@ const PostPreview = ({ title, coverImage, date, topic, slug }: Props) => {
           <div className="mb-4 ">
             <DateFormatter dateString={date} />
           </div>
-          {/* <p className="mb-4 leading-relaxed">{abstract}</p> */}
         </div>
       </div>
     </Link>

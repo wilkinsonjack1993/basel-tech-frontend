@@ -3,32 +3,34 @@ import useOnClickOutside from './useOnClickOutside'
 
 import Link from 'next/link'
 import { Logo } from './Logo'
+import { useTranslation } from 'next-i18next'
 
 const navData = [
   {
-    name: 'Ecosystem',
+    name: 'ecosystem',
     href: '/ecosystem',
   },
   {
-    name: 'Events',
+    name: 'events',
     href: '/events',
   },
   {
-    name: 'Blog',
+    name: 'blog',
     href: '/blog',
   },
   {
-    name: 'About',
+    name: 'about',
     href: '/about',
   },
   {
-    name: 'Contact',
+    name: 'contact',
     href: '/contact',
   },
 ]
 
 export default function NavBar() {
   const [isModalOpen, setModalOpen] = useState(false)
+  const { t } = useTranslation('common')
 
   const ref = useRef<HTMLDivElement>(null)
   useOnClickOutside(ref, () => setModalOpen(false))
@@ -39,7 +41,7 @@ export default function NavBar() {
         {navData.map((n) => {
           return (
             <Link key={n.name} href={n.href}>
-              {n.name}
+              {t(n.name)}
             </Link>
           )
         })}
@@ -81,7 +83,7 @@ export default function NavBar() {
                       className="-m-3 flex items-center justify-center p-3 uppercase hover:bg-gray-100"
                     >
                       <h1 className="my-3 ml-3 text-base font-bold tracking-wider ">
-                        {item.name}
+                        {t(item.name)}
                       </h1>
                     </a>
                   ))}

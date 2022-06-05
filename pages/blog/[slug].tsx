@@ -7,6 +7,7 @@ import Container from '../../components/Common/Container'
 import Image from 'next/image'
 import DateFormatter from '../../components/Blog/DateFormatter'
 import { ALL_LOCALES, DEFAULT_LOCALE } from '../../lib/constants'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 type Props = {
   post: PostType
@@ -51,7 +52,7 @@ type Params = {
   params: {
     slug: string
   }
-  locale?: string
+  locale: string
 }
 
 export async function getStaticProps(props: Params) {
@@ -64,6 +65,7 @@ export async function getStaticProps(props: Params) {
 
   return {
     props: {
+      ...(await serverSideTranslations(props.locale, ['common', 'blog'])),
       post: {
         ...post,
         content,

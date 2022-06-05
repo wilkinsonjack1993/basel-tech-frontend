@@ -1,6 +1,8 @@
+import { useTranslation } from 'next-i18next'
 import Image from 'next/image'
 
 export const HomepageImage = () => {
+  const { t } = useTranslation('homepage')
   return (
     <section className="relative w-full">
       <Image
@@ -13,14 +15,9 @@ export const HomepageImage = () => {
 
       <div className="m-auto h-fit w-full rounded-lg bg-white p-6 md:absolute md:top-[50%] md:left-[5%] md:max-w-sm md:-translate-y-1/2 lg:left-[10%] lg:p-10">
         <h2 className="mb-5 text-3xl">
-          <span className="text-primary-main">
-            Das regionale Ökosystem endecken
-          </span>
+          <span className="text-primary-main">{t('banner-image-title')}</span>
         </h2>
-        <p className="text-xl">
-          Entdecke Innovationsprogramme, Flächenangebote und finde
-          Froschungspartner, Startups and vieles mehr.
-        </p>
+        <p className="text-xl">{t('banner-image-description')}</p>
       </div>
     </section>
   )

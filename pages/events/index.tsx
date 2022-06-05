@@ -1,4 +1,5 @@
-import DateFormatter from '../../components/Blog/DateFormatter'
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import EventList from '../../components/Events/EventList'
 import { getEvents } from '../../lib/events-api'
 
@@ -21,14 +22,15 @@ type Props = {
 }
 
 const Events = (props: Props) => {
+  const { t } = useTranslation('events')
   return (
     <div>
       <section className="border-b-2 py-12">
-        <h4 className="ml-4 text-left">Upcoming Events:</h4>
+        <h4 className="ml-4 text-left">{t('upcoming')}</h4>
         <EventList events={props.futureEvents} />
       </section>
       <section className="my-12">
-        <h4 className="ml-4 text-left">Past Events:</h4>
+        <h4 className="ml-4 text-left">{t('upcoming')}</h4>
         <EventList events={props.pastEvents} />
       </section>
     </div>
@@ -37,10 +39,14 @@ const Events = (props: Props) => {
 
 export default Events
 
-export const getStaticProps = async () => {
+export const getStaticProps = async ({ locale }: { locale: string }) => {
   const { futureEvents, pastEvents } = getEvents()
 
   return {
-    props: { futureEvents, pastEvents },
+    props: {
+      ...(await serverSideTranslations(locale, ['common', 'events'])),
+      futureEvents,
+      pastEvents,
+    },
   }
 }

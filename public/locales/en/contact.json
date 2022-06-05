@@ -1,0 +1,12 @@
+{
+  "title": "Contact Us",
+  "name": "Name",
+  "email": "Email",
+  "message": "Message",
+  "description": "Description",
+  "name-required": "Name is required",
+  "email-required": "Email is required",
+  "message-required": "Message is required",
+  "description-required": "Description is required",
+  "success": "Your message has been sent successfully"
+}

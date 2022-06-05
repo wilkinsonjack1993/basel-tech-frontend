@@ -1,15 +1,18 @@
+import { useTranslation } from 'next-i18next'
 import { useState } from 'react'
 import { EventType } from '../../pages/events'
 import DateFormatter from '../Blog/DateFormatter'
 
 const EventList = (props: { events: EventType[] }) => {
   const [showAll, setShowAll] = useState(false)
-
+  const { t } = useTranslation('events')
+  const { t: tCommon } = useTranslation('common')
   const events = showAll ? props.events : props.events.slice(0, 3)
+
   if (events.length === 0) {
     return (
       <div className="m-4 mt-6 mb-16 w-full max-w-sm text-left lg:max-w-4xl">
-        No events found.
+        {t('no-events')}
       </div>
     )
   }
@@ -58,7 +61,7 @@ const EventList = (props: { events: EventType[] }) => {
           className="mt-3 rounded-full border-2 bg-gray-200 px-4 py-1 hover:-translate-y-1 hover:transform"
           onClick={() => setShowAll(true)}
         >
-          Show all
+          {tCommon('show-all')}
         </button>
       )}
     </>

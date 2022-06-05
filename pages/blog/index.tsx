@@ -1,4 +1,5 @@
 import { NextPage } from 'next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import PostPreview from '../../components/Blog/PostPreview'
 import PostsGrid from '../../components/Blog/PostsGrid'
 import Container from '../../components/Common/Container'
@@ -24,13 +25,16 @@ const Blog: NextPage<Props> = ({ allPosts }: Props) => {
 
 export default Blog
 
-export const getStaticProps = async ({ locale }: { locale?: string }) => {
+export const getStaticProps = async ({ locale }: { locale: string }) => {
   const allPosts = getAllPosts(
     ['title', 'date', 'abstract', 'coverImage', 'slug', 'topic'],
     locale || DEFAULT_LOCALE
   )
 
   return {
-    props: { allPosts },
+    props: {
+      ...(await serverSideTranslations(locale, ['common', 'blog'])),
+      allPosts,
+    },
   }
 }
